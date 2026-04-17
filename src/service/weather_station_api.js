@@ -1,7 +1,7 @@
 const { readZipFile } = require('./data_ingestor');
 const { readData } = require('./data_reader');
 const path = require('path');
-const data_location = path.join(__dirname, '../../data/2024.csv.gz');
+const data_location = path.join(__dirname, '../../data/test.csv');
 
 /**
  * Initializes the API by loading data into the database and setting up routes for requests

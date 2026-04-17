@@ -4,7 +4,8 @@
   "description": "A weather app that pulls data from csv files.",
   "main": "src/frontend/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/frontend/app.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/feraskhemakhem/weather-app#readme",
   "dependencies": {
     "express": "^5.2.1",
+    "gunzip-file": "^0.1.1",
     "unzipper": "^0.12.3"
   }
 }

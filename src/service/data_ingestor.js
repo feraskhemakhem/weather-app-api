@@ -1,5 +1,5 @@
 const fs = require('fs');
-const unzipper = require('unzipper');
+const zlib = require('zlib');
 const readline = require('node:readline/promises');
 const path = require('path');
 const databaseDir = path.join(__dirname, '../../data/database');
@@ -25,47 +25,43 @@ async function readZipFile(data_location) {
         return;
     }
 
-    const zipContents = fs.createReadStream(data_location).pipe(unzipper.Parse({ forceStream: true }));
+    const fileStream = fs.createReadStream(data_location)
     
-    // should run once for single file in zip, but can run for multiple files if needed
-    for await (const fileContents of zipContents) {
+    // read each line of the file
+    // ref: https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
+    const rl = readline.createInterface({
+        input: fileStream,
+        crlfDelay: Infinity // readline will emit 'line' event for each line of the file
+    });
 
-        // read each line of the file
-        // ref: https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
-        const rl = readline.createInterface({
-            input: fileContents,
-            crlfDelay: Infinity // readline will emit 'line' event for each line of the file
-        });
+    // basic error checking
+    rl.on('error', (err) => {
+        console.error('Error reading file:', err);
+        fs.rmSync(databaseDir, { recursive: true, force: true }); // clean up database directory if error occurs
+        return;
+    });
 
-        // basic error checking
-        rl.on('error', (err) => {
-            console.error('Error reading file:', err);
-            fs.rmSync(databaseDir, { recursive: true, force: true }); // clean up database directory if error occurs
+    // for each line, parse the data and write to appropriate output file
+    for await (const line of rl)
+    {
+        writeToJson(line);
+    }
+
+    // once all files are completed, close their parenthesis to create valid json arrays
+    fs.readdir(databaseDir, (err, files) => {
+        if (err) {
+            console.error('Error reading database directory:', err);
             return;
-        });
-
-        // for each line, parse the data and write to appropriate output file
-        for await (const line of rl)
-        {
-            writeToJson(line);
         }
-
-        // once all files are completed, close their parenthesis to create valid json arrays
-        fs.readdir(databaseDir, (err, files) => {
-            if (err) {
-                console.error('Error reading database directory:', err);
-                return;
-            }
-            files.forEach(file => {
-                const filePath = path.join(databaseDir, file);
-                fs.appendFileSync(filePath, "]", (err) => {
-                    if (err) {
-                        console.error('Error appending to JSON file:', err);
-                    }
-                });
+        files.forEach(file => {
+            const filePath = path.join(databaseDir, file);
+            fs.appendFileSync(filePath, "]", (err) => {
+                if (err) {
+                    console.error('Error appending to JSON file:', err);
+                }
             });
         });
-        }
+    });
 }
 
 /**

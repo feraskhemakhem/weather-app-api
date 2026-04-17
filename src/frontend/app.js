@@ -3,7 +3,7 @@ const express = require('express');
 const { readFile } = require('fs').promises;
 const { initAPI, initDatabase } = require('../service/weather_station_api'); // import initAPI function to load data before accepting requests
 const app = express();
-const port = 8080;
+const port = 8081;
 
 app.use(express.json()); // middleware to parse JSON bodies
 
