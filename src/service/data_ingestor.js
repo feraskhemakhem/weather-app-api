@@ -25,13 +25,12 @@ async function readZipFile(data_location) {
         return;
     }
 
-    const fileStream = fs.createReadStream(data_location)
+    // const fileStream = fs.createReadStream(data_location);
     
     // read each line of the file
     // ref: https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
     const rl = readline.createInterface({
-        input: fileStream,
-        crlfDelay: Infinity // readline will emit 'line' event for each line of the file
+        input: fs.createReadStream(data_location).pipe(zlib.createGunzip())
     });
 
     // basic error checking
