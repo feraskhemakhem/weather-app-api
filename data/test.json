@@ -1,0 +1,12 @@
+{
+  "user_id": 101,
+  "username": "tester_01",
+  "is_active": true,
+  "profile": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com"
+  },
+  "roles": ["admin", "editor"],
+  "preferences": null
+}

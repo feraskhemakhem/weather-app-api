@@ -1,0 +1,25 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "A weather app that pulls data from csv files.",
+  "main": "src/frontend/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feraskhemakhem/weather-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/feraskhemakhem/weather-app/issues"
+  },
+  "homepage": "https://github.com/feraskhemakhem/weather-app#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "unzipper": "^0.12.3"
+  }
+}
