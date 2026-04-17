@@ -1,5 +1,5 @@
-# weather-app
-A weather app to request weather data via Restful API. Using Node.js and Express.
+# weather-app-api
+A weather Restful API. Using Node.js and Express.
 
 # Instructions
 
